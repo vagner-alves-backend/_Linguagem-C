@@ -25,6 +25,7 @@ void _Atualizar_Tabuleiro(int tab[][12], int y); // Atualizar a posição das pe
 int _Sorteie_P();//Sorteia a proxima peça...
 
 void _Nova_Partida(int tab[][12]);//Iicia uma nova partida..
+void _Game_Over();//Fim de jogo...
 
 
 int main() {
@@ -314,8 +315,9 @@ int _Iniciar_Jogo(int tab[][12]) {
         _Nova_Partida(tab);
         return 1;
     } else {
-        pos.X = 64;
-        pos.Y = 5;
+        _Game_Over();
+        pos.X = 76;
+        pos.Y = 15;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
         printf("[  Game Over... ]");
     }
@@ -349,6 +351,29 @@ void _Nova_Partida(int tab[][12]) {
                _Desenha(j*2, i, 2); 
             }
             
+        }
+        Sleep(30);
+    }
+}
+
+void _Game_Over() {
+    COORD pos;
+    for (int y = 0; y < 25; y++) {
+        for (int x = 0; x < 24; x = x + 2) {
+            pos.X = x;
+            pos.Y = y;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf(" %c ", 254);
+        }
+        Sleep(30);
+    }
+
+    for (int y = 24; y >= 0; y--) {
+        for (int x = 22; x >= 0; x = x - 2) {
+            pos.X = x;
+            pos.Y = y;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("   ");
         }
         Sleep(30);
     }
