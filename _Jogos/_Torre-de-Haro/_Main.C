@@ -3,6 +3,11 @@
 #include <conio.h>
 #include <Windows.h>
 
+
+//                  Esse jogo ainda está em desenvolvimento... Esse é apenas um esboço inicial..
+
+
+
 void buffer(); // Limpa o buffer do teclado...
 void iniciar_matriz(int matriz[][3]); // inicializa a matriz com as posições iniciais da torre...
 void visual_torre(int matriz[][3]); // desenha as torres...
