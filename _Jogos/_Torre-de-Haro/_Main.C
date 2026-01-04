@@ -44,8 +44,6 @@ void iniciar_jogo(int matriz[][3]) {
     int movimento_regular = 0;
     int vitoria = 0;
 
-    int tecla = 0;
-
     do {
         system("cls");
         // a função a seguir será responsavel por desenhar a torre---.
@@ -59,21 +57,19 @@ void iniciar_jogo(int matriz[][3]) {
 
         // a função a seguir sera responsavel por coletar a peça que o jogador deseja movimentar...
         movimento_regular = 0;
+        printf("---Qual pecca voce deseja movimentar?\n");
+        printf("[1]  *  \n[2] *** \n[3]*****\n............\n..: ");
+        scanf("%d", &pecca);
+        buffer();
         do {
-            printf("---Qual pecca voce deseja movimentar?\n");
-            printf("[1]  *  \n[2] *** \n[3]*****\n............\n..: ");
-            scanf("%d", &pecca);
-            buffer();
 
             for (int eixo_x_for = 0; eixo_x_for < 3; eixo_x_for++) {
                 for (int eixo_y_for = 0; eixo_y_for < 3; eixo_y_for++) {
                     if (matriz[eixo_x_for][eixo_y_for] == pecca) {
                         if (eixo_x_for == 0) {
                             movimento_regular = 1;
-                            eixo_x = eixo_x_for;
                         } else if (matriz[eixo_x_for -1][eixo_y_for] == 0) {
                             movimento_regular = 1;
-                            eixo_x = eixo_x_for;
                         }
                     }
                 }
@@ -81,10 +77,19 @@ void iniciar_jogo(int matriz[][3]) {
 
             if (movimento_regular != 1) {
                 printf("\t---Movimento inrregular, escolha uma nova pecca...\n\n");
+                printf("---Qual pecca voce deseja movimentar? ");
+                scanf("%d", &pecca);
+                buffer();
             }
         } while (movimento_regular != 1);
-        printf("\t\tx = %d\tpecca = %d\n", eixo_x, pecca);
 
+        for (int index_x = 0; index_x < 3; index_x++) {
+            for (int index_y = 0; index_y < 3; index_y++) {
+                if (matriz[index_x][index_y] == pecca) {
+                    matriz[index_x][index_y] = 0;
+                }
+            }
+        }
 
         // a função a seguir permite o jogador escolher a torre para onde deseja mandar a peça selecionada...
         movimento_regular = 0;
@@ -99,7 +104,7 @@ void iniciar_jogo(int matriz[][3]) {
                         movimento_regular = 1;
                         eixo_y = eixo_y_for;
                         eixo_y_for = -1;
-                    } else if (matriz[eixo_y_for][torre -2] > pecca) {
+                    } else if (matriz[eixo_y_for +1][torre -1] > pecca) {
                         movimento_regular = 1;
                         eixo_y = eixo_y_for;
                         eixo_y_for = -1;
@@ -111,10 +116,11 @@ void iniciar_jogo(int matriz[][3]) {
                 printf("\t---Movimento inrregular, escolha uma nova posiccao...\n\n");
             }
         } while (movimento_regular != 1);
-        printf("\t\ttorre [%d], torre_calc[%d], y = %d\n", torre, torre-1, eixo_x);
-        
 
-
-        vitoria = 1;
+        matriz[eixo_y][torre -1] = pecca;
+        movimentos++;
+        if (pecca == 4) {
+            vitoria = 1;
+        }
     } while (vitoria != 1);
 } 
