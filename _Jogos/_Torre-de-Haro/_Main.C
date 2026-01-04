@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
+#include <conio.h>
 
 //                          Em desenvolvimento---.
 
@@ -122,18 +123,42 @@ void iniciar_jogo(int matriz[][3]) {
 
 
 void desenhe(int matriz[][3]) {
+    COORD pos;
+    int position_x = 70;
+    int position_y = 7;
+    
     for (int eixo_x = 0; eixo_x < 3; eixo_x++) {
         for (int eixo_y = 0; eixo_y < 3; eixo_y++) {
-            printf("\t\t\t");
-            if (matriz[eixo_x][eixo_y] == 1) {
-                printf("  *   ");
-            } else if (matriz[eixo_x][eixo_y] == 2) {
+            
+            if (eixo_x == 1) {
+                position_x = 82;
+            } else if (eixo_x == 2) {
+                position_x = 94;
+            }
+
+            if (eixo_y == 0) {
+                position_y = 7; 
+            } else if (eixo_y == 1) {
+                position_y = 8;
+            } else if (eixo_y == 2) {
+                position_y = 9;
+            }
+
+            pos.X = position_x;
+            pos.Y = position_y;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+            if (matriz[eixo_y][eixo_x] == 1) {
+                printf("  *   "); 
+            } else if (matriz[eixo_y][eixo_x] == 2) {
                 printf(" ***  ");
-            } else if (matriz[eixo_x][eixo_y] == 3) {
+            } else if (matriz[eixo_y][eixo_x] == 3) {
                 printf("***** ");
-            } else {
+            } else if (matriz[eixo_y][eixo_x] == 0) {
                 printf("--.-- ");
             }
+
+
         }
         printf("\n");
     }
