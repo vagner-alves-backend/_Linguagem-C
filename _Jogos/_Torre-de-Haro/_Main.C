@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <Windows.h>
 
+//                          Em desenvolvimento---.
+
 void buffer(); // limpa o buffer do teclado..
 void iniciar_jogo(int matriz[][3]); // inicia o jogo..
 
