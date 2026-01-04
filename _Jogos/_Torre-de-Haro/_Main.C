@@ -6,6 +6,7 @@
 
 void buffer(); // limpa o buffer do teclado..
 void iniciar_jogo(int matriz[][3]); // inicia o jogo..
+void desenhe(int matriz[][3]);//Desenha as peças do jogo..
 
 
 int main() {
@@ -47,13 +48,7 @@ void iniciar_jogo(int matriz[][3]) {
     do {
         system("cls");
         // a função a seguir será responsavel por desenhar a torre---.
-        for (int eixo_x_for = 0; eixo_x_for < 3; eixo_x_for++) {
-            printf("\t\t");
-            for (int eixo_y_for = 0; eixo_y_for < 3; eixo_y_for++) {
-                printf("%d ", matriz[eixo_x_for][eixo_y_for]);
-            }
-            printf("\n");
-        }
+        desenhe(matriz);
 
         // a função a seguir sera responsavel por coletar a peça que o jogador deseja movimentar...
         movimento_regular = 0;
@@ -124,3 +119,22 @@ void iniciar_jogo(int matriz[][3]) {
         }
     } while (vitoria != 1);
 } 
+
+
+void desenhe(int matriz[][3]) {
+    for (int eixo_x = 0; eixo_x < 3; eixo_x++) {
+        for (int eixo_y = 0; eixo_y < 3; eixo_y++) {
+            printf("\t\t\t");
+            if (matriz[eixo_x][eixo_y] == 1) {
+                printf("  *   ");
+            } else if (matriz[eixo_x][eixo_y] == 2) {
+                printf(" ***  ");
+            } else if (matriz[eixo_x][eixo_y] == 3) {
+                printf("***** ");
+            } else {
+                printf("--.-- ");
+            }
+        }
+        printf("\n");
+    }
+}
