@@ -11,6 +11,7 @@ void desenhe(int matriz[][3]);//Desenha as peças do jogo..
 
 
 int main() {
+    system("cls");
 
     int matriz[3][3];
     int pecca = 1;
@@ -26,6 +27,7 @@ int main() {
     }
 
     iniciar_jogo(matriz);
+    getch();
 
     return 0;
 }
@@ -37,28 +39,49 @@ void buffer() {
 
 
 void iniciar_jogo(int matriz[][3]) {
-    int eixo_x = 0;
-    int eixo_y = 0;
+    COORD pos;
 
+    int eixo_y = 0;
     int pecca = 0;
     int torre = 0;
     int movimentos = 0;
     int movimento_regular = 0;
+
+    int movimentou_base = 0;
     int vitoria = 0;
 
     do {
-        system("cls");
         // a função a seguir será responsavel por desenhar a torre---.
         desenhe(matriz);
+        pos.X = 94;
+        pos.Y = 12;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf("---Movimentos [ %d ]", movimentos);
 
         // a função a seguir sera responsavel por coletar a peça que o jogador deseja movimentar...
         movimento_regular = 0;
-        printf("---Qual pecca voce deseja movimentar?\n");
-        printf("[1]  *  \n[2] *** \n[3]*****\n............\n..: ");
-        scanf("%d", &pecca);
-        buffer();
+
         do {
 
+            for (int index = 12; index < 18; index++) {
+                pos.X = 20;
+                pos.Y = index;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                if (index == 12) {
+                    printf("---Qual pecca vocce deseja movimentar? ");
+                } else if (index == 13) {
+                    printf("1-   *  ");
+                } else if (index == 14) {
+                    printf("2-  *** ");
+                } else if (index == 15) {
+                    printf("3- *****");
+                } else if (index == 16) {
+                    printf(".............");
+                } else if (index == 17) {
+                    printf("..: ");
+                    scanf("%d", &pecca);
+                }
+            }
             for (int eixo_x_for = 0; eixo_x_for < 3; eixo_x_for++) {
                 for (int eixo_y_for = 0; eixo_y_for < 3; eixo_y_for++) {
                     if (matriz[eixo_x_for][eixo_y_for] == pecca) {
@@ -72,10 +95,15 @@ void iniciar_jogo(int matriz[][3]) {
             }
 
             if (movimento_regular != 1) {
-                printf("\t---Movimento inrregular, escolha uma nova pecca...\n\n");
-                printf("---Qual pecca voce deseja movimentar? ");
-                scanf("%d", &pecca);
-                buffer();
+                pos.X = 40;
+                pos.Y = 20;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf("---Movimento inrregular, escolha uma nova pecca...");
+            } else {
+                pos.X = 40;
+                pos.Y = 20;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf("                                                        ");
             }
         } while (movimento_regular != 1);
 
@@ -90,6 +118,9 @@ void iniciar_jogo(int matriz[][3]) {
         // a função a seguir permite o jogador escolher a torre para onde deseja mandar a peça selecionada...
         movimento_regular = 0;
         do {
+            pos.X = 20;
+            pos.Y = 19;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
             printf("---Para qual torre deseja realocar a pecca? ");
             scanf("%d", &torre);
             buffer();
@@ -109,16 +140,58 @@ void iniciar_jogo(int matriz[][3]) {
             }
 
             if (movimento_regular != 1) {
-                printf("\t---Movimento inrregular, escolha uma nova posiccao...\n\n");
+                pos.X = 40;
+                pos.Y = 20;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf("---Movimento inrregular, escolha uma nova posiccao...");
+            } else {
+                pos.X = 40;
+                pos.Y = 20;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf("                                                         ");
             }
         } while (movimento_regular != 1);
 
+        pos.X = 20;
+        pos.Y = 19;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf("                                                     ");
+
+        if (pecca == 3) {
+            movimentou_base = 1;
+        }
+
         matriz[eixo_y][torre -1] = pecca;
         movimentos++;
-        if (pecca == 4) {
-            vitoria = 1;
+
+        for (int index_x = 0; index_x < 3; index_x++) {
+            if (matriz[index_x][torre -1] != 0) {
+                vitoria++;
+            }
         }
-    } while (vitoria != 1);
+
+        if (vitoria == 3 && movimentou_base == 1) {
+            vitoria = 201;
+        } else {
+            vitoria = 0;
+        }
+    } while (vitoria != 201);
+
+    desenhe(matriz);
+    pos.X = 94;
+    pos.Y = 12;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    printf("---Movimentos [ %d ]", movimentos);
+
+    pos.X = 75;
+    pos.Y = 5;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    printf("---VICTORY---");
+
+    pos.X = 0;
+    pos.Y = 23;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    printf(" ");
 } 
 
 
