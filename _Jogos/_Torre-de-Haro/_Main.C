@@ -3,18 +3,23 @@
 #include <Windows.h>
 #include <conio.h>
 
-//                          Em desenvolvimento---.
 
 void buffer(); // limpa o buffer do teclado..
 void iniciar_jogo(int matriz[][3]); // inicia o jogo..
 void desenhe(int matriz[][3]);//Desenha as peças do jogo..
-
+int menu(); // Menu de navegação...
 
 int main() {
+    CONSOLE_CURSOR_INFO info;
+    info.bVisible = FALSE;
+    info.dwSize = 100;
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+
     system("cls");
 
     int matriz[3][3];
     int pecca = 1;
+    int nova_partida = 0;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (j == 0) {
@@ -25,8 +30,24 @@ int main() {
             }
         }
     }
-
     iniciar_jogo(matriz);
+    do {
+        nova_partida = menu();
+        if (nova_partida == 1) {
+            pecca = 1;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (j == 0) {
+                        matriz[i][j] = pecca;
+                        pecca = pecca + 1;
+                    } else {
+                        matriz[i][j] = 0;
+                    }
+                }
+            }
+            iniciar_jogo(matriz);
+        }
+    } while (nova_partida != 2);
     getch();
 
     return 0;
@@ -37,6 +58,63 @@ void buffer() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+int menu() {
+    COORD pos;
+
+    int escolha = 1;
+    int tecla;
+
+    pos.X = 70;
+    pos.Y = 17;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    printf("---Deseja iniciar uma nova partida?");
+
+    do {
+        if (kbhit()) {
+            tecla = getch();
+            if (tecla != 32) {
+                tecla = getch();
+                if (escolha == 1) {
+                    escolha = 2;
+                } else {
+                    escolha = 1;
+                }
+            }
+        }
+
+        pos.X = 70;
+        pos.Y = 18;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        if (escolha == 1) {
+            printf("[ Yes ]");
+        } else {
+            printf(" Yes    ");
+        }
+
+        pos.X = 80;
+        pos.Y = 18;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        if (escolha == 2) {
+            printf("[ No ]");
+        } else {
+            printf(" No    ");
+        }
+
+    } while (tecla != 32);
+
+    if (escolha == 1) {
+        pos.X = 70;
+        pos.Y = 17;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf("                                         ");
+
+        pos.X = 70;
+        pos.Y = 18;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf("                                          ");
+    }
+    return escolha;
+}
 
 void iniciar_jogo(int matriz[][3]) {
     COORD pos;
@@ -62,13 +140,17 @@ void iniciar_jogo(int matriz[][3]) {
         movimento_regular = 0;
 
         do {
+            pos.X = 22;
+            pos.Y = 17;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("   ");
 
             for (int index = 12; index < 18; index++) {
                 pos.X = 20;
                 pos.Y = index;
                 SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
                 if (index == 12) {
-                    printf("---Qual pecca vocce deseja movimentar? ");
+                    printf("---Qual pecca vocce deseja movimentar?");
                 } else if (index == 13) {
                     printf("1-   *  ");
                 } else if (index == 14) {
