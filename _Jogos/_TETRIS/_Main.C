@@ -5,7 +5,6 @@
 #include <time.h>
 #include <stdbool.h>
 
-//              Esse jogo ainda não está finalizado, ainda falta terminar de implementar algumas funções e também melhorar o design e o código... 
 
 int _Menu();//Menu de navegação do game...
 void _Mov_Menu(int _position); //Movimenta pelo menu...
@@ -34,6 +33,8 @@ int main() {
     info.dwSize = 100;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 
+    COORD pos;
+
     system("cls");
     int _continue = 0;
 
@@ -49,6 +50,29 @@ int main() {
             do {
                 _continue = _Iniciar_Jogo(_Tabuleiro);
             } while (_continue != 0);
+        } else {
+
+            pos.X = 68;
+            pos.Y = 5;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("                         ");
+
+            pos.X = 68;
+            pos.Y = 7;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("                         ");
+
+            pos.X = 68;
+            pos.Y = 8;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("                         ");
+
+            pos.X = 76;
+            pos.Y = 15;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            printf("[  Game Over... ]");
+
+            _continue = 0;
         }
     } while (_continue != 0);
 
@@ -75,17 +99,11 @@ int _Menu() {
             _Tecla = getch();
         }
         
-        if (_Tecla == 80) {
-            if (selecionado < 3) {
-                selecionado++; 
+        if (_Tecla == 80 || _Tecla == 72) {
+            if (selecionado == 1) {
+                selecionado = 2;
             } else {
                 selecionado = 1;
-            }
-        } else if (_Tecla == 72) {
-            if (selecionado > 1) {
-                selecionado--;
-            } else {
-                selecionado = 3;
             }
         }
     } while (_Tecla != 32);
@@ -110,19 +128,9 @@ void _Mov_Menu(int _position) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
     
     if (_position == 2) {
-        printf(">  Historico  <");
+        printf(">  End  <");
     } else {
-        printf("Historico         ");
-    }
-
-    pos.X = 68;
-    pos.Y = 9;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-    
-    if (_position == 3) {
-        printf(">  Configuracoes  <");
-    } else {
-        printf("Configuracoes      ");
+        printf("End        ");
     }
 }
 
@@ -356,6 +364,7 @@ void _Nova_Partida(int tab[][12]) {
     }
 }
 
+
 void _Game_Over() {
     COORD pos;
     for (int y = 0; y < 25; y++) {
@@ -378,6 +387,7 @@ void _Game_Over() {
         Sleep(30);
     }
 }
+
 
 int _Sorteie_P() {
     int p = 0;
@@ -456,7 +466,7 @@ void _Desenha(int x, int y, int desenhe) {
         printf(" = ");
     } else if (desenhe == 4) {
         printf(" . ");
-    }
+    } 
 }
 
 void _Iniciar_Matriz(int tab[][12]) {
