@@ -400,7 +400,7 @@ void _Game_Over(int fim) {
         pos.Y = 17;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
         printf(" * ");
-        Sleep(3);
+        Sleep(1);
     }
 
     int index = 0;
