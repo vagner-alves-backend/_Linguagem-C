@@ -24,7 +24,7 @@ void _Atualizar_Tabuleiro(int tab[][12], int y); // Atualizar a posição das pe
 int _Sorteie_P();//Sorteia a proxima peça...
 
 void _Nova_Partida(int tab[][12]);//Iicia uma nova partida..
-void _Game_Over();//Fim de jogo...
+void _Game_Over(int fim);//Fim de jogo...
 
 
 int main() {
@@ -66,10 +66,7 @@ int main() {
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
             printf("                         ");
 
-            pos.X = 76;
-            pos.Y = 15;
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-            printf("[  Game Over... ]");
+            _Game_Over(0);
             _continue = 0;
         }
     } while (_continue != 0);
@@ -321,7 +318,7 @@ int _Iniciar_Jogo(int tab[][12]) {
         _Nova_Partida(tab);
         return 1;
     } else {
-        _Game_Over();
+        _Game_Over(1);
     }
 
     return 0;
@@ -359,30 +356,30 @@ void _Nova_Partida(int tab[][12]) {
 }
 
 
-void _Game_Over() {
+void _Game_Over(int fim) {
     COORD pos;
-
-    for (int y = 0; y < 25; y++) {
-        for (int x = 0; x < 24; x = x + 2) {
-            pos.X = x;
-            pos.Y = y;
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-            printf(" %c ", 254);
+    if (fim == 1) {
+        for (int y = 0; y < 25; y++) {
+            for (int x = 0; x < 24; x = x + 2) {
+                pos.X = x;
+                pos.Y = y;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf(" %c ", 254);
+            }
+            Sleep(30);
         }
-        Sleep(30);
+
+        for (int y = 24; y >= 0; y--) {
+            for (int x = 22; x >= 0; x = x - 2) {
+                pos.X = x;
+                pos.Y = y;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                printf("   ");
+            }
+            Sleep(30);
+        }   
     }
-
-    for (int y = 24; y >= 0; y--) {
-        for (int x = 22; x >= 0; x = x - 2) {
-            pos.X = x;
-            pos.Y = y;
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-            printf("   ");
-        }
-        Sleep(30);
-    }
-
-
+    
     char linha1[50];
     char linha2[50];
     char linha3[50];
