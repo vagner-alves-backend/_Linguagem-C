@@ -40,7 +40,6 @@ int main() {
 
     
     int _Tabuleiro[25][12];//Matriz do jogo..
-
     do {
         _continue = _Menu();
         if (_continue == 1) {
@@ -71,7 +70,6 @@ int main() {
             pos.Y = 15;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
             printf("[  Game Over... ]");
-
             _continue = 0;
         }
     } while (_continue != 0);
@@ -324,10 +322,6 @@ int _Iniciar_Jogo(int tab[][12]) {
         return 1;
     } else {
         _Game_Over();
-        pos.X = 76;
-        pos.Y = 15;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-        printf("[  Game Over... ]");
     }
 
     return 0;
@@ -367,6 +361,7 @@ void _Nova_Partida(int tab[][12]) {
 
 void _Game_Over() {
     COORD pos;
+
     for (int y = 0; y < 25; y++) {
         for (int x = 0; x < 24; x = x + 2) {
             pos.X = x;
@@ -385,6 +380,77 @@ void _Game_Over() {
             printf("   ");
         }
         Sleep(30);
+    }
+
+
+    char linha1[50];
+    char linha2[50];
+    char linha3[50];
+    char linha4[50];
+    char linha5[50];
+
+    strcpy(linha1, "011110011100100010111100000011110100010111101111");
+    strcpy(linha2, "010000100010110110100000000010010100010100001001");
+    strcpy(linha3, "010110111110101010111101111010010100010111101111");
+    strcpy(linha4, "010010100010100010100000000010010010100100001010");
+    strcpy(linha5, "011110100010100010111100000011110001000111101001");
+
+    for (int limite = 0; limite < 160; limite += 2) {
+        pos.X = limite;
+        pos.Y = 9;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf(" * ");
+        pos.Y = 17;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+        printf(" * ");
+        Sleep(3);
+    }
+
+    int index = 0;
+    for (int linhas = 10; linhas < 17; linhas++) {
+        pos.Y = linhas;
+        index = 0;
+        for (int colunas = 30; colunas < 130; colunas+=2) {
+            pos.X = colunas;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+            if (linhas == 10 || linhas == 16) {
+                printf("   ");
+            } else {
+                if (linhas == 11) {
+                    if (linha1[index] == '1') {
+                        printf(" %c ", 254);
+                    } else {
+                        printf("   ");
+                    }
+                } else if (linhas == 12) {
+                     if (linha2[index] == '1') {
+                        printf(" %c ", 254);
+                    } else {
+                        printf("   ");
+                    }
+                } else if (linhas == 13) {
+                    if (linha3[index] == '1') {
+                        printf(" %c ", 254);
+                    } else {
+                        printf("   ");
+                    }
+                } else if (linhas == 14) {
+                    if (linha4[index] == '1') {
+                        printf(" %c ", 254);
+                    } else {
+                        printf("   ");
+                    }
+                } else if (linhas == 15) {
+                    if (linha5[index] == '1') {
+                        printf(" %c ", 254);
+                    } else {
+                        printf("   ");
+                    }
+                }
+            }
+            index++;
+        }
+        Sleep(3);
     }
 }
 
